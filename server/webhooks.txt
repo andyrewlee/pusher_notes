@@ -1,0 +1,39 @@
+WebHooks
+  allow server to be notified of events ocurring within Pusher
+    activate WebHooks in account dashboard
+  sent as HTTP POST request to url we specify
+    contains a JSON document
+  our server should respond to POST request with 2XX status code
+    or else Pusher will retry sending the WebHook
+
+No batch webhooks enabled
+  {
+    "time_ms": 1327078148132
+    "events": [
+      { "name": "event_name", "some": "data}
+    ]
+  }
+  time_ms
+    provides timestamp in miliseconds when WebHook was created
+  events
+    contains one event only
+      contains a name and event specific data
+
+Batch webooks enabled
+  {
+    "time_ms": 1327078148132
+    "events": [
+      { "name": "event_name", "some": "data},
+      { "name": "event_name", "some": "data},
+      { "name": "event_name", "some": "data}
+    ]
+  }
+
+Events
+  Channel existence events
+    channel_occupied
+    channel_vacated
+  Presence events
+    member_added
+    member_removed
+  Client events
