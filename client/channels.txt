@@ -1,0 +1,47 @@
+Channels
+  Each application has a number of channels
+    each client chooses which to subscribe to
+  Three types
+    Public channels
+      can be subscribe by anyone who knows name
+    Private channels
+      should have private- prefix
+        introduce mechanism which lets server control access
+    Presence channels
+      should have presence- prefix
+        extension of private channels
+        lets you 'register' user information on subscription
+        let other members of channel know who's online
+
+Accessing channels
+  if channel has been subscribed already
+    possible to access channels by name
+      var channel = pusher.channel(channelName);
+
+Public channels
+  Subscribe
+    var channel = pusher.subscribe(channelName);
+      channelName
+        name of channel to subscribe to
+      returns channel object which events can be bound to
+  Unsubscribe
+    pusher.unsubscribe(channelName);
+      channelName
+        name of channel to unsubscribe from
+
+Private channels
+  when access to channel needs to be restricted in some way
+  must be prefixed with 'private-'
+  private channel subscription must be authenticated
+  Subscribe
+    when subscription takes place, user authentication process will be triggered
+      var privateChannel = pusher.subscribe(privateChannelName);
+        privateChannelName
+          name of channel to subscribe to
+        returns channel object
+
+Presence channels
+  private channels with additional feature of awareness of who is subscribed
+    limit of 100 members
+      if we need more check out this link
+        https://support.pusher.com/hc/en-us/articles/204113596-Showing-who-s-online-with-a-large-number-of-users

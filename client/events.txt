@@ -1,0 +1,5 @@
+Events
+  named messages
+    can set up handlers in client code
+  notification of something happening, often named past tense
+    i.e. message-created, todo-finished
