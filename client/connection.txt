@@ -1,0 +1,68 @@
+The Pusher connection
+  bi-directional connection
+
+Connection to pusher
+  var pusher = new Pusher(applicationKey, options);
+    automatically connected to Pusher when new Pusher object created
+    applicationKey
+      key that is globally unique to application
+        can be found in API Access section of appliction in dashboard
+      options
+        Pusher options parameter
+          optional parameter for configuration
+
+Disconnecting from pusher
+  pusher.disconnect();
+    connections automatically close when user navigates to another web page
+      or closes web browser, not need to do it manually
+
+Connection States
+  monitor state of connection to notify users
+  Available states
+    initialized
+      initial state, no event emitted
+    connecting
+      pusher is trying to connect, or receonnect after connection failure
+    connected
+      connection is open and authenticated with app
+    unavailable
+      in most cases because no Internet conenction or pusher is down
+        pusher will automatically retry every 10 secons
+          connecting_in events will still be triggered
+    failed
+      pusher is not supported by browser
+    disconnected
+      connection that was previously connected has no intentionally been closed
+  Example state changes
+    given supported browser with internet connection
+      initialized -> connecting -> connected
+    temporary failure of pusher connection
+      connected -> connecting -> connected
+    if internet connection disappears
+      connected -> connecting -> unavailable
+    when internet connection becomes available again
+      unavailable -> connected
+    if pusher is not supported
+      initialized -> failed
+
+Binding to events
+  each instance of Pusher has connection object
+    manages the current state of pusher connection
+      allows binding to state changes
+        var pusher = new Pusher('YOUR_APP_KEY');
+        pusher.connection.bind('connected', function() {
+          $('div#status').text('We are ready to go!');
+        });
+    possible to bind to connecting_in event
+      pusher.connection.bind('connecting_in', function(delay) {
+        alert("Can't create connection, will try again in " + delay + "
+              seconds";
+      });
+    extra state_change event that fires for all state changes
+      pusher.connection.bind('state_change', function(states) {
+        // states = {previous: 'oldState', current: 'newState'}
+        $('div#status').text("Pusher's current state is " + states.current);
+      });
+
+Querying the connection state
+  var state = pusher.connection.state
