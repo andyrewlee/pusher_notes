@@ -3,3 +3,41 @@ Events
     can set up handlers in client code
   notification of something happening, often named past tense
     i.e. message-created, todo-finished
+
+Binding to events
+  Channel Binding
+    most binding and triggering are attached to channels
+    channel.bind(eventName, callback);
+      eventName
+        the name of event to bind to
+      callback
+        function to be called when event is triggered
+      Example
+        var pusher = new Pusher('API_KEY');
+        var channel = pusher.subscribe('CHANNEL_NAME');
+        channel.bind('new-message', function(data) {
+          // do something after this message
+        });
+  Binding to all events from connection
+    it is possible to bind events on pusher connection regardless of channel
+    Example
+      var pusher = new Pusher('API_KEY');
+      pusher.bind(eventName, callback);
+
+Unbinding from Events
+  channel.unbind(eventName, callback);
+    eventName
+      name of event to remove binding
+    callback
+      function that was used to bind to the event
+
+Pusher channel events
+  Some events are triggered by Pusher
+    indicate these by prepending event names with 'pusher:'
+
+Triggering client events
+  we can trigger events from client
+    not from our web server
+      should take precautions, could be malicious
+    should rate limit events
+      no more than 10 messages per second

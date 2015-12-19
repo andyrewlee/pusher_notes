@@ -1,0 +1,5 @@
+WebSocket Fallbacks
+  Some browsers don't support WebSockets
+    Pusher provides to fallbacks
+      Flash
+      HTTP
