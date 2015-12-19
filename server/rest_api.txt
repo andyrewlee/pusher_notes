@@ -1,0 +1,51 @@
+Server REST API
+  All interactions with Pusher REST API must have authentication signature
+
+Publishing Events
+  call to RESTful API
+  use serialized JSON to keep size low
+  in most cases exclude the sender from receiving events they triggered
+    could result in unexpected results like duplicates
+  Example
+    require 'pusher'
+
+    Pusher.app_id = 'APP_ID'
+    Pusher.key = 'APP_KEY'
+    Pusher.secret = 'APP_SECRET'
+
+    Pusher.trigger(channels, events, data)
+      channels
+        either single string for one channel
+          or array of channel names
+            to puslish a particular event
+      events
+        name of the even to be triggered
+      data
+        data to be sent with event
+          will be converted to JSON by library
+      socket_id
+        optional
+        socket id of client to be excluded from receiving
+
+Publishing an event on single channel
+  Pusher.trigger('my-channel', 'my-event', message: 'hello')
+
+Publishing an event on multiple channels
+  Pusher.trigger(['ch1', 'ch2'], 'my-event', message: 'hello')
+
+Querying application state
+  can make GET requests to Pusher to get information
+  Example
+    Pusher.get(resource, params)
+      resource
+        resource endpoint to query
+      params
+        optional, query string parameters
+    Pusher.get('/channels')
+
+Query the state of individual channel
+  response = Pusher.get('/channels/channel-name')
+
+Presence users
+  when using a presence channel
+  response = Pusher.get('/channels/presence-channel-name/users')
